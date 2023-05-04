@@ -3,9 +3,10 @@ import shutil
 import subprocess
 import time
 import whisper
-import asyncio 
+import asyncio
 
 model = whisper.load_model("base")
+
 
 def divide_audio_into_chunks_of_seconds(audio_path, seconds=30):
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -18,12 +19,14 @@ def divide_audio_into_chunks_of_seconds(audio_path, seconds=30):
 async def transcribe_audio(audio_path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     temp_dir = os.path.join(script_dir, "temp")
-    output_file = os.path.join('output',f"{os.path.basename(audio_path)[:-4]}.txt")
+    output_file = os.path.join("output", f"{os.path.basename(audio_path)[:-4]}.txt")
     divide_audio_into_chunks_of_seconds(audio_path)
 
     audio_chunks = sorted(
         [
-            os.path.join(temp_dir, "chunks", f"{os.path.basename(audio_path)[:-4]}_{i:03d}.mp3")
+            os.path.join(
+                temp_dir, "chunks", f"{os.path.basename(audio_path)[:-4]}_{i:03d}.mp3"
+            )
             for i in range(0, 1000)
         ],
         key=lambda x: int(x.split("_")[-1].split(".")[0]),
@@ -32,16 +35,19 @@ async def transcribe_audio(audio_path):
     print("Processing chunks:")
 
     with open(output_file, "w", encoding="utf-8") as f:
-        for audio_chunk in audio_chunks:
+        for index, audio_chunk in enumerate(audio_chunks):
             if os.path.isfile(audio_chunk):
                 start_time = time.time()
                 result = model.transcribe(audio_chunk)
                 elapsed_time = time.time() - start_time
+                chunk_start_time = index * 30
+                timestamp = f"{chunk_start_time // 3600:02d}:{(chunk_start_time % 3600) // 60:02d}:{chunk_start_time % 60:02d}"
                 print(f"Listened {audio_chunk} during {elapsed_time:.2f} seconds")
-                f.write(result["text"] + "\n")
+                f.write(f"[{timestamp}] {result['text']}\n")
 
     # Remove temp directory
     shutil.rmtree(os.path.join(script_dir, "temp"))
+
 
 if __name__ == "__main__":
     audio_path = "data/audio.mp3"
