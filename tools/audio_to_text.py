@@ -15,7 +15,7 @@ def divide_audio_into_chunks_of_seconds(audio_path, seconds=30):
     subprocess.call(command, shell=True)
 
 
-async def convert_audio_to_text(audio_path):
+async def transcribe_audio(audio_path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     temp_dir = os.path.join(script_dir, "temp")
     output_file = os.path.join('output',f"{os.path.basename(audio_path)[:-4]}.txt")
@@ -37,7 +37,7 @@ async def convert_audio_to_text(audio_path):
                 start_time = time.time()
                 result = model.transcribe(audio_chunk)
                 elapsed_time = time.time() - start_time
-                print(f"Chunk {audio_chunk} processed in {elapsed_time:.2f} seconds")
+                print(f"Listened {audio_chunk} during {elapsed_time:.2f} seconds")
                 f.write(result["text"] + "\n")
 
     # Remove temp directory
@@ -45,4 +45,4 @@ async def convert_audio_to_text(audio_path):
 
 if __name__ == "__main__":
     audio_path = "data/audio.mp3"
-    asyncio.run(convert_audio_to_text(audio_path))
+    asyncio.run(transcribe_audio(audio_path))
