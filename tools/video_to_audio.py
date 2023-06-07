@@ -1,5 +1,6 @@
 import os
 import subprocess
+import asyncio
 
 
 async def convert_video_to_audio(video_path, audio_path):
@@ -8,6 +9,6 @@ async def convert_video_to_audio(video_path, audio_path):
 
 
 if __name__ == "__main__":
-    video_path = 'data/video.mp4'
-    audio_path = 'data/audio.mp3'
-    convert_video_to_audio(video_path, audio_path)
+    video_path = "data/yt_test.3gpp"
+    audio_path = "data/audio.mp3"
+    asyncio.run(convert_video_to_audio(video_path, audio_path))

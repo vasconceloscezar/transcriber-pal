@@ -1,2 +1,5 @@
 asyncio
 openai-whisper
+pydub
+pytube
+setuptools-rust
