@@ -6,7 +6,7 @@ import whisper
 import asyncio
 import glob
 
-model = whisper.load_model("base") # Model to use for transcription
+model = whisper.load_model("small") # Model to use for transcription
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 temp_dir = os.path.join(script_dir, "temp")
@@ -34,6 +34,10 @@ async def transcribe_audio(audio_path):
     )
 
     print("Processing chunks:")
+    
+    total_time = 0  # variable to store total time
+    chunk_count = 0  # variable to store the number of chunks processed
+    total_chunks = len(audio_chunks)  # total number of chunks
 
     with open(output_file, "w", encoding="utf-8") as f:
         for index, audio_chunk in enumerate(audio_chunks):
@@ -41,13 +45,21 @@ async def transcribe_audio(audio_path):
                 start_time = time.time()
                 result = model.transcribe(audio_chunk)
                 elapsed_time = time.time() - start_time
+                total_time += elapsed_time  # accumulate time
+                chunk_count += 1  # increment chunk count
+                
                 chunk_start_time = index * 30
                 timestamp = f"{chunk_start_time // 3600:02d}:{(chunk_start_time % 3600) // 60:02d}:{chunk_start_time % 60:02d}"
-                print(f"Listened {audio_chunk} during {elapsed_time:.2f} seconds")
+                
+                avg_time_per_chunk = total_time / chunk_count  # calculate average time
+                estimated_remaining_time = avg_time_per_chunk * (total_chunks - chunk_count)  # estimate remaining time
+                
+                print(f"Processed {chunk_count} out of {total_chunks} chunks. Estimated time remaining: {estimated_remaining_time:.2f} seconds.")
                 f.write(f"[{timestamp}] {result['text']}\n")
 
     # Remove temp directory
     shutil.rmtree(os.path.join(script_dir, "temp"))
+
 
 if __name__ == "__main__":
     audio_path = "data/meet_quivr.mp3"
