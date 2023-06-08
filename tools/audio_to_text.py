@@ -6,7 +6,8 @@ import whisper
 import asyncio
 import glob
 
-model = whisper.load_model("base")
+model = whisper.load_model("base") # Model to use for transcription
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 temp_dir = os.path.join(script_dir, "temp")
 chunks_dir = os.path.join(temp_dir, "chunks")
