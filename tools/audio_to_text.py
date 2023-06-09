@@ -1,66 +1,111 @@
 import os
 import shutil
 import subprocess
-import time
 import whisper
 import asyncio
 import glob
-
-model = whisper.load_model("small") # Model to use for transcription
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-temp_dir = os.path.join(script_dir, "temp")
-chunks_dir = os.path.join(temp_dir, "chunks")
-
-
-def divide_audio_into_chunks_of_seconds(audio_path, seconds=30):
-    os.makedirs(chunks_dir, exist_ok=True)
-    command = f"ffmpeg -i {audio_path} -f segment -segment_time {seconds} -c copy {chunks_dir}/{os.path.basename(audio_path)[:-4]}_%03d.mp3"
-    subprocess.call(command, shell=True)
+import torch
+from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
+from colorama import Fore, Style
+from pydub import AudioSegment
+from tools.timer import Timer
 
 
-async def transcribe_audio(audio_path):
-    output_file = os.path.join("output", f"{os.path.basename(audio_path)[:-4]}.txt")
-    divide_audio_into_chunks_of_seconds(audio_path)
+class AudioTranscriber:
+    def __init__(self, audio_path, model="small", delete_chunks=True):
+        self.audio_path = audio_path
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        if self.device == "cpu":
+            print(Fore.RED + "No GPU detected. Using CPU instead." + Style.RESET_ALL)
+        else:
+            print(Fore.GREEN + "Using GPU for process." + Style.RESET_ALL)
+        self.model = whisper.load_model(model, device=self.device)
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.temp_dir = os.path.join(self.script_dir, "temp")
+        self.chunks_dir = os.path.join(self.temp_dir, "chunks")
+        self.delete_chunks = delete_chunks
+        self.include_timestamp = True
+        self.output_with_and_without_timestamp = True
 
-    audio_chunks = sorted(
-        [
-            os.path.join(
-                temp_dir, "chunks", f"{os.path.basename(audio_path)[:-4]}_{i:03d}.mp3"
+    def get_audio_duration(self):
+        audio = AudioSegment.from_file(self.audio_path)
+        duration_in_sec = len(audio) / 1000
+        hours = int(duration_in_sec // 3600)
+        minutes = int((duration_in_sec % 3600) // 60)
+        seconds = int(duration_in_sec % 60)
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+    def divide_audio_into_chunks_of_seconds(self, seconds=30):
+        print(Fore.GREEN + "Dividing audio into chunks..." + Style.RESET_ALL)
+        os.makedirs(self.chunks_dir, exist_ok=True)
+        command = f"ffmpeg -loglevel warning -hide_banner -i {self.audio_path} -f segment -segment_time {seconds} -c copy {self.chunks_dir}/{os.path.basename(self.audio_path)[:-4]}_%03d.mp3"
+        subprocess.call(command, shell=True)
+
+    def transcribe_audio_chunk(self, audio_chunk):
+        result = self.model.transcribe(audio_chunk)
+        return result["text"]
+
+    def process_audio_chunks_sequentially(self, audio_chunks, output_file):
+        include_timestamp = self.include_timestamp
+        output_both = self.output_with_and_without_timestamp
+
+        print(Fore.GREEN + "Processing audio chunks..." + Style.RESET_ALL)
+        transcriptions = []
+        for audio_chunk in tqdm(audio_chunks, ncols=70):
+            transcription = self.transcribe_audio_chunk(audio_chunk)
+            transcriptions.append(transcription)
+
+        def write_transcriptions_to_file(file_path, include_timestamp):
+            with open(file_path, "w", encoding="utf-8") as f:
+                for index, transcription in enumerate(transcriptions):
+                    chunk_start_time = index * 30
+                    timestamp = f"{chunk_start_time // 3600:02d}:{(chunk_start_time % 3600) // 60:02d}:{chunk_start_time % 60:02d}"
+                    if include_timestamp:
+                        f.write(f"[{timestamp}] {transcription}\n")
+                    else:
+                        f.write(f"{transcription}\n")
+
+        write_transcriptions_to_file(output_file, include_timestamp)
+
+        if output_both and not include_timestamp:
+            output_file_with_timestamp = output_file.replace(
+                ".txt", "_with_timestamp.txt"
             )
-            for i in range(len(glob.glob(os.path.join(chunks_dir, "*.mp3"))))
-        ],
-        key=lambda x: int(x.split("_")[-1].split(".")[0]),
-    )
+            write_transcriptions_to_file(output_file_with_timestamp, True)
 
-    print("Processing chunks:")
-    
-    total_time = 0  # variable to store total time
-    chunk_count = 0  # variable to store the number of chunks processed
-    total_chunks = len(audio_chunks)  # total number of chunks
+    async def transcribe_audio(self):
+        print(
+            Fore.GREEN
+            + "Audio duration: "
+            + self.get_audio_duration()
+            + Style.RESET_ALL
+        )
+        timer = Timer()
+        timer.start()
+        output_file = os.path.join(
+            "output", f"{os.path.basename(self.audio_path)[:-4]}.txt"
+        )
+        self.divide_audio_into_chunks_of_seconds()
+        audio_chunks = sorted(
+            glob.glob(os.path.join(self.chunks_dir, "*.mp3")),
+            key=lambda x: int(x.split("_")[-1].split(".")[0]),
+        )
+        self.process_audio_chunks_sequentially(audio_chunks, output_file)
 
-    with open(output_file, "w", encoding="utf-8") as f:
-        for index, audio_chunk in enumerate(audio_chunks):
-            if os.path.isfile(audio_chunk):
-                start_time = time.time()
-                result = model.transcribe(audio_chunk)
-                elapsed_time = time.time() - start_time
-                total_time += elapsed_time  # accumulate time
-                chunk_count += 1  # increment chunk count
-                
-                chunk_start_time = index * 30
-                timestamp = f"{chunk_start_time // 3600:02d}:{(chunk_start_time % 3600) // 60:02d}:{chunk_start_time % 60:02d}"
-                
-                avg_time_per_chunk = total_time / chunk_count  # calculate average time
-                estimated_remaining_time = avg_time_per_chunk * (total_chunks - chunk_count)  # estimate remaining time
-                
-                print(f"Processed {chunk_count} out of {total_chunks} chunks. Estimated time remaining: {estimated_remaining_time:.2f} seconds.")
-                f.write(f"[{timestamp}] {result['text']}\n")
+        if self.delete_chunks:
+            shutil.rmtree(os.path.join(self.script_dir, "temp"))
 
-    # Remove temp directory
-    shutil.rmtree(os.path.join(script_dir, "temp"))
+        print(Fore.GREEN + "Transcription completed!" + Style.RESET_ALL)
+        print(
+            Fore.GREEN
+            + "Total transcription processing time: "
+            + timer.stop()
+            + Style.RESET_ALL
+        )
 
 
 if __name__ == "__main__":
     audio_path = "data/meet_quivr.mp3"
-    asyncio.run(transcribe_audio(audio_path))
+    transcriber = AudioTranscriber(audio_path)
+    asyncio.run(transcriber.transcribe_audio())

@@ -1,5 +1,6 @@
 asyncio
 openai-whisper
-pydub
-pytube
 setuptools-rust
+colorama
+tqdm
+pydub

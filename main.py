@@ -1,31 +1,36 @@
 import argparse
 import asyncio
-from tools.audio_to_text import transcribe_audio
+from tools.audio_to_text import AudioTranscriber
 from tools.video_to_audio import convert_video_to_audio
+import time
 
-def check_file_is_audio_or_video(input_file):
+
+def need_to_convert_file(input_file):
     video_extensions = [".mp4", ".mov", ".avi", ".mkv", ".flv", ".wmv", ".webm"]
-    audio_extensions = [".mp3", ".wav", ".ogg", ".m4a", ".flac" , ".aac" , ".opus"]
-    if input_file.endswith(tuple(audio_extensions)):
-        return "audio"
-    elif input_file.endswith(tuple(video_extensions)):
-        return "video"
-    else:
-        return None
-    
+    # audio_extensions = [".mp3", ".wav", ".ogg", ".m4a", ".flac", ".aac", ".opus"]
+    if input_file.endswith(tuple(video_extensions)):
+        return True
+    return False
+
+
 async def main(input_file):
     if not input_file:
         print("No input file provided.")
         return
-    file_type = check_file_is_audio_or_video(input_file)
-    if file_type == "audio":
-        await transcribe_audio(input_file)
-    elif file_type == "video":
-        audio_path = input_file[:-4] + ".mp3"  # Define the output audio path
-        await convert_video_to_audio(input_file, audio_path)  # Provide audio_path as argument
-        await transcribe_audio(audio_path)
-    else: 
-        print("Invalid file format. Supported formats are: mp3, wav, ogg, m4a, flac, aac, opus, mp4, mov, avi, mkv, flv, wmv, webm")
+
+    # file_type = check_file_is_audio_or_video(input_file)
+    audio_path = input_file
+    if need_to_convert_file(input_file):
+        audio_path = input_file[:-4] + ".mp3"
+        await convert_video_to_audio(input_file, audio_path)
+    else:
+        print(
+            "Invalid file format. Supported formats are: mp3, wav, ogg, m4a, flac, aac, opus, mp4, mov, avi, mkv, flv, wmv, webm"
+        )
+
+    transcriber = AudioTranscriber(audio_path)
+    await transcriber.transcribe_audio()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
