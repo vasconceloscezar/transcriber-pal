@@ -1,7 +1,8 @@
 # Transcriber Pal
 
-Transcriber Pal is a Python command-line application that transcribes audio and video files to text using artificial intelligence. It uses the [Whisper](https://github.com/openai/whisper) library for speech recognition and the FFmpeg library for audio and video processing.
+![transcriber_pal](https://github.com/vasconceloscezar/transcriber-pal/assets/97035956/5fd72181-5cbe-4553-ac4c-fbec87666f96)
 
+Transcriber Pal is a Python command-line application that transcribes audio and video files to text using artificial intelligence. It uses the [Whisper](https://github.com/openai/whisper) library for speech recognition and the FFmpeg library for audio and video processing.
 
 ## Requirements
 - Python 3.9 or higher
@@ -19,7 +20,7 @@ pip install -r requirements.txt
 To transcribe an audio or video file, run the main.py script and pass the path to the input file as a command-line argument:
 
 ```bash
-python main.py input_file.mp3
+python main.py 'path/to/file.mp3'
 ```
 
 The time it takes to finish the transcript is roughly half the time of the audio, it can be a bit longer if there's a need to convert the video to audio. 
