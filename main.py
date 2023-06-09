@@ -2,7 +2,6 @@ import argparse
 import asyncio
 from tools.audio_to_text import AudioTranscriber
 from tools.video_to_audio import convert_video_to_audio
-import time
 
 
 def need_to_convert_file(input_file):
