@@ -25,7 +25,7 @@ class AudioTranscriber:
         self.temp_dir = os.path.join(self.script_dir, "temp")
         self.chunks_dir = os.path.join(self.temp_dir, "chunks")
         self.delete_chunks = delete_chunks
-        self.include_timestamp = True
+        self.include_timestamp = False
         self.output_with_and_without_timestamp = True
 
     def get_audio_duration(self):

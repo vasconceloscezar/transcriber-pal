@@ -1,12 +1,15 @@
 import os
+import dotenv
 import whisperx
 import gc
 
+dotenv.load_dotenv()
+
 device = "cuda"
 
-audio_file_name = "meet_aiopen_nmstx.mp3"
+audio_file_name = "analise_requirements_transcriber.mp3"
 root_folder = os.path.dirname(os.path.realpath(__file__))
-audio_path = os.path.join(root_folder, f"data/{audio_file_name}")
+audio_path = os.path.join(root_folder, f"../data/{audio_file_name}")
 
 batch_size = 8  # reduce if low on GPU mem
 compute_type = "int8"  # change to "float16" if low on GPU mem (may reduce accuracy)
@@ -36,8 +39,14 @@ print(result["segments"])  # after alignment
 # delete model if low on GPU resources
 # import gc; gc.collect(); torch.cuda.empty_cache(); del model_a
 
+print(f"Hugging Face API Token: {HF_TOKEN}")
+
 # 3. Assign speaker labels
-diarize_model = whisperx.DiarizationPipeline(use_auth_token=HF_TOKEN, device=device)
+diarize_model = whisperx.DiarizationPipeline(use_auth_token=HF_TOKEN)
+if diarize_model is not None:
+    diarize_model = diarize_model.to(device)
+else:
+    raise RuntimeError("Failed to load the diarization pipeline.")
 
 # add min/max number of speakers if known
 diarize_segments = diarize_model(audio_path)
