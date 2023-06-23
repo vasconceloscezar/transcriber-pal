@@ -42,11 +42,7 @@ print(result["segments"])  # after alignment
 print(f"Hugging Face API Token: {HF_TOKEN}")
 
 # 3. Assign speaker labels
-diarize_model = whisperx.DiarizationPipeline(use_auth_token=HF_TOKEN)
-if diarize_model is not None:
-    diarize_model = diarize_model.to(device)
-else:
-    raise RuntimeError("Failed to load the diarization pipeline.")
+diarize_model = whisperx.DiarizationPipeline(use_auth_token=HF_TOKEN, device=device)
 
 # add min/max number of speakers if known
 diarize_segments = diarize_model(audio_path)
