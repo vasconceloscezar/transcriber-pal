@@ -3,14 +3,15 @@ import glob
 import time
 import argparse
 import asyncio
+
 from tools.audio_to_text import AudioTranscriber
 from tools.video_to_audio import convert_video_to_audio
 
 
 def need_to_convert_file(input_file):
-    video_extensions = [".mp4", ".mov", ".avi", ".mkv", ".flv", ".wmv", ".webm"]
+    VIDEO_EXTENSIONS = [".mp4", ".mov", ".avi", ".mkv", ".flv", ".wmv", ".webm"]
     # audio_extensions = [".mp3", ".wav", ".ogg", ".m4a", ".flac", ".aac", ".opus"]
-    if input_file.endswith(tuple(video_extensions)):
+    if input_file.endswith(tuple(VIDEO_EXTENSIONS)):
         return True
     return False
 
@@ -30,15 +31,15 @@ def monitor_folder(folder, file_patterns):
         new_files = current_files - existing_files
 
         for new_file in new_files:
-            print("New file found: {}".format(new_file))
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(run_transcriber(new_file))
+            print(f"New file found: {new_file}")
+            # loop = asyncio.get_event_loop()
+            # loop.run_until_complete(run_transcriber(new_file))
 
         existing_files = current_files
 
 
 async def run_transcriber(input_file):
-    print("Starting transcription for file: {}".format(input_file))
+    print(f"Starting transcription for file: {input_file}")
     if not input_file:
         print("No input file provided.")
         return
@@ -66,8 +67,17 @@ video_extensions = [
     "*.wmv",
     "*.webm",
 ]
-audio_extensions = ["*.mp3", "*.wav", "*.ogg", "*.m4a", "*.flac", "*.aac", "*.opus"]
-file_patterns = audio_extensions + video_extensions
-folder_to_monitor = r"C:\obs-recording"
-print("Monitoring folder: {}".format(folder_to_monitor))
-monitor_folder(folder_to_monitor, file_patterns)
+audio_extensions = [
+    "*.mp3",
+    "*.wav",
+    "*.ogg",
+    "*.txt",
+    "*.m4a",
+    "*.flac",
+    "*.aac",
+    "*.opus",
+]
+FILE_PATTERNS = audio_extensions + video_extensions
+FOLDER_TO_MONITOR = r"Z:\files_to_transcript"
+print(f"Monitoring folder: {FOLDER_TO_MONITOR}")
+monitor_folder(FOLDER_TO_MONITOR, FILE_PATTERNS)

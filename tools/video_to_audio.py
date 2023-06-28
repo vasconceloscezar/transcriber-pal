@@ -22,6 +22,6 @@ async def convert_video_to_audio(video_path, audio_path):
 
 
 if __name__ == "__main__":
-    video_path = "data/meet_06_06_23.mkv"
-    audio_path = "data/meet_06_06_23.mp3"
+    video_path = "data/2023_06_27_Namastex-JoshXT.mp4"
+    audio_path = "data/2023_06_27_Namastex-JoshXT.mp3"
     asyncio.run(convert_video_to_audio(video_path, audio_path))
