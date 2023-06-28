@@ -53,6 +53,7 @@ def is_file_audio(input_file):
 async def monitor_folder(folder, file_patterns):
     # Create a queue for new files
     queue = asyncio.Queue()
+    print(Fore.MAGENTA + "Checking for files..." + Style.RESET_ALL)
 
     existing_files = set()
     for pattern in file_patterns:
@@ -88,8 +89,6 @@ async def monitor_folder(folder, file_patterns):
                 + Style.RESET_ALL
             )
             asyncio.create_task(run_transcriber(queue))
-
-        print(Fore.GREEN + "Checking for files..." + Style.RESET_ALL)
 
 
 async def run_transcriber(queue):
@@ -151,6 +150,8 @@ async def run_transcriber(queue):
                 shutil.move(input_file, output_dir)
 
             queue.task_done()
+            print(Fore.MAGENTA + "Checking for files..." + Style.RESET_ALL)
+
         except Exception as ex:
             print(Fore.RED + f"Error transcribing file: {ex}" + Style.RESET_ALL)
 
