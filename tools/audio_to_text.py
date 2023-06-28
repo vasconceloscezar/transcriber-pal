@@ -74,7 +74,7 @@ class AudioTranscriber:
             )
             write_transcriptions_to_file(output_file_with_timestamp, True)
 
-    async def transcribe_audio(self):
+    async def transcribe_audio(self, output_folder="output"):
         print(
             Fore.GREEN
             + "Audio duration: "
@@ -83,9 +83,11 @@ class AudioTranscriber:
         )
         timer = Timer()
         timer.start()
-        output_file = os.path.join(
-            "output", f"{os.path.basename(self.audio_path)[:-4]}.txt"
+
+        output_file: str = os.path.join(
+            output_folder, f"{os.path.basename(self.audio_path)[:-4]}.txt"
         )
+
         self.divide_audio_into_chunks_of_seconds()
         audio_chunks = sorted(
             glob.glob(os.path.join(self.chunks_dir, "*.mp3")),
