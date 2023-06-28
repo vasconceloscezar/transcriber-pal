@@ -30,6 +30,10 @@ AUDIO_EXTENSIONS = [
 ]
 
 
+def clear_terminal() -> None:
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def is_file_video(input_file):
     file_extension = os.path.splitext(input_file)[1]
     video_extensions_stripped = [
@@ -53,17 +57,16 @@ def is_file_audio(input_file):
 async def monitor_folder(folder, file_patterns):
     # Create a queue for new files
     queue = asyncio.Queue()
-    print(Fore.MAGENTA + "Checking for files..." + Style.RESET_ALL)
 
     existing_files = set()
     for pattern in file_patterns:
         existing_files.update(glob.glob(os.path.join(folder, pattern)))
     print(Fore.BLUE + f"Found {len(existing_files)} existing files" + Style.RESET_ALL)
-
     # Add the initial existing files to the queue
     for file in existing_files:
         await queue.put(file)
 
+    print(Fore.MAGENTA + "Checking for files..." + Style.RESET_ALL)
     while True:
         await asyncio.sleep(1)
         current_files = set()
@@ -160,6 +163,7 @@ if __name__ == "__main__":
     FILE_PATTERNS = AUDIO_EXTENSIONS + VIDEO_EXTENSIONS
 
     FOLDER_TO_MONITOR = r"Z:\files_to_transcript"
+    clear_terminal()
     print(Fore.CYAN + f"Monitoring folder: {FOLDER_TO_MONITOR}" + Style.RESET_ALL)
 
     asyncio.run(monitor_folder(FOLDER_TO_MONITOR, FILE_PATTERNS))
