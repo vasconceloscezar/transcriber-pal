@@ -1,0 +1,77 @@
+ Aqui está a análise da transcrição da reunião:
+
+1. Itens acionáveis:
+
+1.1 Agenda: Divulgar informações da empresa – pitch deck, pitches em vídeo. 
+
+1.2 Tarefas: Produzir pitch deck e vídeo pitch. Responder perguntas de pitch. 
+
+1.3 Reuniões/Ligações: Participar da feira de pitch entre 18-19/8.
+
+1.4 Prazos: 18-19/8 (feira de pitch)
+
+2. Instruções Diretas: 
+- "Vamos produzir um negócio apresentando o Cérebro, o Charles e algumas demos do que eles já fazem."
+-  "Vamos fazer um vídeo também falando um pouco do que é e mostrando umas demos."
+
+3. Tópicos Discutidos:
+- Informações da startup (resumo, mercado, solução, clientes, modelo de negócio, equipe, pitch deck, vídeo pitch).
+- Investimento (valor, participação societária). 
+- Escala do negócio (MVP, experiência da equipe, dedicação dos sócios, investimento anterior).
+- Disponibilidade para pitch (18-19/8).
+
+4. Participantes:
+- Dois participantes: provavelmente os sócios da startup. O estilo de fala é coloquial, informal, interrompendo um ao outro. Usa expressões como "tipo", "aí", "meu", "pônei".
+- Participante 1: Fala sobre as informações da startup, investimento, escala do negócio. Usa expressões como "pra frentex", "lidar com quem mexe com isso". 
+- Participante 2: Faz perguntas sobre as informações da startup e investimento. Propõe respostas e complementa as ideias. Usa expressões como "tá ligado".
+
+5. Decisões Tomadas:
+- Participar da feira de pitch nos dias 18-19/8. 
+- Captar R$ 500 mil em investimento inicial.
+- Oferecer 10% de participação societária em troca de R$ 500 mil.
+
+6. Pontos Principais:
+- A startup atua com inteligência artificial e interpretação de dados.
+- O problema que resolve é melhorar a interação com ferramentas de IA usando dados contextuais. 
+- O mercado de atuação é produção de conteúdo, RH e empresas.
+- A solução é treinar IA para interpretar dados de texto, áudio, vídeo e devolve um resumo/roteiro. Outra IA faz follow-up com o usuário.  
+- Está em estágio de validação com dois clientes pequenos.
+- Modelo de negócio B2B e B2C.
+- MVP de algumas funcionalidades, pretende oferecer serviços de aplicações desenvolvidas pela IA.
+- Equipe com 10+ anos de experiência em programação. Sócios irão se dedicar em full-time se receberem investimento.
+- Investimento será usado em marketing e desenvolvimento de projetos de teste.
+- Ainda não recebeu investimento, mas pensa em fazer pré-seed com rede próxima. 
+- Valor de avaliação estimado em R$ 50 milhões.
+
+7. Perguntas e Respostas:
+Pergunta: "Então, tem todas essas perguntas aí pra fazer... Mas você tem bem aqui as respostas aí, de certa forma. Mais ou menos... Tem algumas questões aí que a gente pode pensar na... ...certezinha de comunicação. Cara..."
+Resposta: "Eu acho que assim, de verdade, pra tentar ser bem objetivo aqui, do ponto de vista de pitch, startup e tentar alcançar uns contatos um pouco mais tipo pra frentex, porque assim, uma coisa é o Christian que não tem noção do que é inteligência artificial e do que que ela é capaz, ele não tá ligado no mid journey, por exemplo, entendeu?" 
+
+8. Problemas e Soluções: 
+Problema: Dificuldade de decidir a porcentagem societária a oferecer em troca do investimento de R$ 500 mil.
+Solução: Estimar valuation da empresa em R$ 50 milhões e oferecer 10% de participação societária (R$ 5 milhões).
+
+9. Dados de Suporte: 
+- Dois clientes pequenos em ambiente de teste. 
+- Equipe com 10+ anos de experiência.
+- Estimativa de valuation em R$ 50 milhões baseada no "ar da empresa e potencial de geração de receita".
+
+10. Emoções:
+- Entusiasmo e empolgação ao falar da startup.
+- Confusão e dificuldade em decidir alguns detalhes (porcentagem societária).
+
+11. Consenso e Desacordos:
+- Consenso sobre participar da feira de pitch e captar R$ 500 mil de investimento.  
+- Dificuldade em chegar a um acordo sobre porcentagem societária, mas conseguem estimar um valuation para basear a decisão.
+
+12. Contexto da Reunião: Reunião para preparar informações e material para a feira de pitch, onde pretendem apresentar a startup a investidores.
+
+13. Análise Sentimental: Sentimento geral positivo em relação à startup e confiança na capacidade de alcançar os objetivos. Alguma insegurança em detalhes específicos devido à falta de experiência.  
+
+14. Linguagem Figurativa:
+- "pra esse speech aí cara, eu iria com o conceito de... refinaria refinaria é liraz" (forma coloquial para dizer "para essa apresentação, eu diria que o conceito é... refinaria de dados é show").
+- "uma frase sobre o negócio, como que seria isso? tipo, como você venderia isso?" (forma figurativa de perguntar qual é o resumo e proposta de valor da startup).
+
+15. Eficácia da Reunião: Reunião parece ter sido efetiva para definir as informações principais a serem divulgadas, porém poderia ter sido mais objetiva para evitar hesitação em alguns detalhes. A maior parte da agenda parece ter sido coberta.
+
+16. Aspectos Culturais: Linguagem coloquial e informal indica cultura brasileira. Dificuldade em lidar com detalhes de investimento pode indicar falta de familiaridade com esse processo.

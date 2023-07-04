@@ -22,8 +22,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         url = sys.argv[1]
     else:
-        url = "https://www.youtube.com/watch?v=8cCU_rLhNFM"
+        url = "https://www.youtube.com/watch?v=dNrTrx42DGQ"
 
     # video_path = "data/teste_long.mp4"
     # audio_path = "data/audio.mp3"
-    asyncio.run(download_youtube_video(url, "data/temp/"))
+    asyncio.run(download_youtube_video(url, "data/yt_downloaded/"))

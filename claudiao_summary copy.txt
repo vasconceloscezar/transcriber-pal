@@ -1,0 +1,55 @@
+ 1. Itens acionáveis:
+• Desenvolver TinyBox: George tem planos para desenvolver uma caixa de computação poderosa chamada TinyBox sob sua nova empresa TinyCorp.
+
+2. Instruções Diretas:  
+• Desenvolver TinyGrad: George planeja continuar desenvolvendo seu framework TinyGrad. 
+
+3. Tópicos Discutidos: 
+• TinyCorp e TinyBox, computação descentralizada, IA aberta e segura, OpenPilot, consciência e raciocínio de IA, ética e AI safety.
+
+4. Participantes:
+George Hottz: fundador de TinyCorp e creator do TinyGrad, estilo direto e prático
+
+5. Decisões Tomadas:
+• Lançar TinyBox para cliente limitado
+• Desenvolver TinyGrad ainda mais
+• Manter o código do Kama aberto
+
+6. Principais ideias: 
+• Importância da descentralização e IA aberta
+• Ceticismo em relação à AI safety e alinhamento
+• Inteligência e energia são fundamentais para o progresso humano
+
+7. Perguntas e respostas: 
+Pergunta: Qual o estado atual do desenvolvimento Autopilot?
+Resposta: Estamos resolvendo o problema e estamos a anos à frente de Tesla.
+
+8. Problemas e Soluções:
+Problema: Código complexo e difícil de modificar  
+Solução: Adicionar testes e refatorar continuamente
+
+9. Dados de Suporte:
+• George deu vários exemplos e analogias para apoiar suas opiniões
+
+10. Emoções:
+George parece animado e entusiasmado com suas ideias, embora cínico em relação aos esforços de AI safety.
+
+11. Consenso e Desacordo:
+George tem desacordo com os principais esforços de AI safety e alinhamento, mas concorda que a IA poderosa é algo para ser levado a sério.
+
+12. Contexto da Reunião:
+A reunião ocorreu entre George Hottz, fundador da TinyCorp e criador do TinyGrad, e Lex Friedman para discutir os esforços atuais e futuros de George.
+
+13. Análise Sentimental: 
+George tem um sentimento positivo em relação à descentralização da computação e IA aberta, mas sentimentos mistos sobre AI safety e alinhamento.
+
+14. Linguagem Figurativa:
+George frequentemente usa analogias e comparações, como "galinhas em uma fazenda" para descrever centralização versus descentralização.
+
+15. Eficácia da Reunião: 
+Apesar de muitos tópicos não relacionados, a discussão foi produtiva e esclarecedora, com George explicando suas ideias e preocupações claramente.
+
+16. Aspectos Culturais:
+O contexto cultural da engenharia de software e do Vale do Silício, com seu foco na inovação e disrupção, pode ter influenciado as perspectivas de George.
+
+Espero ter ajudado! Por favor, me avise se você precisar de mais detalhes ou clarificação.

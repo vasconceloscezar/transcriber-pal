@@ -11,3 +11,4 @@ git+https://github.com/m-bain/whisperx.git
 langchain[all]
 yt_dlp
 faster-whisper
+anthropic

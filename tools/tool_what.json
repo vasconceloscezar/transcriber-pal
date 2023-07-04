@@ -1,0 +1,82 @@
+{
+  "collaborative_brainstorming_tool": {
+    "Author": "YourName",
+    "name": "IdeaStorm",
+    "version": "1.0",
+    "Features": {
+      "Create_brainstorming_session": {
+        "session_name": "Create a new brainstorming session",
+        "select_ai_agents": "Select AI agents to participate in the session",
+        "session_settings": "Configure the session's duration and AI agents"
+      },
+      "Brainstorming_techniques": {
+        "brainwriting": "AI agents use the brainwriting technique to generate ideas",
+        "round_robin": "AI agents use the round robin technique to generate ideas",
+        "starbursting": "AI agents use the starbursting technique to generate ideas",
+        "recursive_conversation": "AI agents engage in recursive conversation while using various brainstorming techniques",
+        "prompt_user": "Prompt the user for input to contribute to brainstorming"
+      },
+      "idea_submission": {
+        "submit_idea": "AI agents or user submit ideas during the brainstorming session",
+        "edit_idea": "Modify or delete an existing idea"
+      },
+      "interactive_commands": {
+        "initiate_technique_conversation": "Begin a brainstorming technique combined with recursive conversation among AI agents",
+        "provide_ai_agent_feedback": "AI agent provides feedback on entered ideas",
+        "list_ai_agents": "Display the list of participating AI agents",
+        "request_ai_agent_ideas": "Request specific AI agent to generate ideas"
+      },
+      "export_and_share": {
+        "download_summary": "Download the session summary in JSON format",
+        "share_summary": "Share the session summary link"
+      }
+    },
+    "endpoints": {
+      "sessions": "api/sessions",
+      "brainstorming_techniques": "api/techniques",
+      "ideas": "api/ideas",
+      "commands": "api/commands",
+      "export": "api/export"
+    },
+    "session_data_structure": {
+      "sessionId": "{UUID}",
+      "name": "{String}",
+      "settings": {
+        "duration": "{Integer}",
+        "aiAgents": "[{AI_Agents_UUIDs}]"
+      },
+      "ideas": [
+        {
+          "ideaId": "{UUID}",
+          "author": "{AI_Agent_UUID or User}",
+          "content": "{String}",
+          "submittedAt": "{ISO_Date}",
+          "feedback": [
+            {
+              "feedbackId": "{UUID}",
+              "aiAgent": "{AI_Agent_UUID}",
+              "content": "{String}",
+              "submittedAt": "{ISO_Date}"
+            }
+          ],
+          "recursive_conversations": [
+            {
+              "conversationId": "{UUID}",
+              "agentsInvolved": "[{AI_Agents_UUIDs}]",
+              "brainstormingTechnique": "{String}",
+              "messages": [
+                {
+                  "messageId": "{UUID}",
+                  "sender": "{AI_Agent_UUID}",
+                  "content": "{String}",
+                  "timestamp": "{ISO_Date}"
+                }
+              ],
+              "topic": "{String}"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -93,6 +93,7 @@ class AudioTranscriber:
             glob.glob(os.path.join(self.chunks_dir, "*.mp3")),
             key=lambda x: int(x.split("_")[-1].split(".")[0]),
         )
+        # Agora os
         self.process_audio_chunks_sequentially(audio_chunks, output_file)
 
         if self.delete_chunks:
