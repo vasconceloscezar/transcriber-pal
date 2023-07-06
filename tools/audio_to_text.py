@@ -12,8 +12,37 @@ from pydub import AudioSegment
 from tools.timer import Timer
 
 
+class SRTWriter:
+    def __init__(self, output_file):
+        self.output_file = output_file
+        self.subtitle_number = 1
+
+    def write_subtitle(self, start_time, end_time, subtitle_text):
+        # Calculate start and end timecodes
+        start_hours, rem = divmod(start_time, 3600)
+        start_minutes, start_seconds = divmod(rem, 60)
+        end_hours, rem = divmod(end_time, 3600)
+        end_minutes, end_seconds = divmod(rem, 60)
+
+        # Open the output file in append mode
+        with open(self.output_file, "a", encoding="utf-8") as f:
+            # Write the subtitle number
+            f.write(str(self.subtitle_number) + "\n")
+
+            # Write start and end timecodes
+            f.write(
+                f"{start_hours:02d}:{start_minutes:02d}:{start_seconds:02d},000 --> {end_hours:02d}:{end_minutes:02d}:{end_seconds:02d},000\n"
+            )
+
+            # Write the transcription text and an extra newline to separate subtitles
+            f.write(subtitle_text + "\n\n")
+
+        # Increase subtitle count for next use
+        self.subtitle_number += 1
+
+
 class AudioTranscriber:
-    def __init__(self, audio_path, model="small", delete_chunks=True):
+    def __init__(self, audio_path, model="tiny", delete_chunks=True):
         self.audio_path = audio_path
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         if self.device == "cpu":
@@ -55,6 +84,21 @@ class AudioTranscriber:
         for audio_chunk in tqdm(audio_chunks, ncols=70):
             transcription = self.transcribe_audio_chunk(audio_chunk)
             transcriptions.append(transcription)
+            # Set up the SRTWriter
+
+        srt_output_file = output_file.replace(".txt", ".srt")
+        srt_writer = SRTWriter(srt_output_file)
+
+        for index, audio_chunk in tqdm(enumerate(audio_chunks), ncols=70):
+            transcription = self.transcribe_audio_chunk(audio_chunk)
+            transcriptions.append(transcription)
+
+            # Calculate start and end timecodes for the SRT file (each chunk is 30 seconds apart)
+            start_time = index * 30
+            end_time = start_time + 30
+
+            # Write this transcription to the SRT file
+            srt_writer.write_subtitle(start_time, end_time, transcription)
 
         def write_transcriptions_to_file(file_path, include_timestamp):
             with open(file_path, "w", encoding="utf-8") as f:
