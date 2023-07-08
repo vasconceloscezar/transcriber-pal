@@ -1,7 +1,7 @@
 import asyncio
 import glob
 import os
-from terminal_operations import print_blue, print_magenta, print_green
+from tools.terminal_operations import print_blue, print_magenta, print_green
 
 
 class FolderMonitor:

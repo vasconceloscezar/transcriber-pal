@@ -1,13 +1,13 @@
 import os
 from datetime import datetime
-from terminal_operations import (
+from tools.terminal_operations import (
     print_blue,
     print_red,
     print_green,
     print_magenta,
     print_yellow,
 )
-from file_operations import move_file, is_file_audio, is_file_video
+from tools.file_operations import move_file, is_file_audio, is_file_video
 from tools.audio_transcription import AudioTranscription
 from tools.audio_video_converter import AudioVideoConverter
 

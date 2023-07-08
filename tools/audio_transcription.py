@@ -1,5 +1,5 @@
 from tools.audio_to_text import AudioTranscriber
-from terminal_operations import print_red
+from tools.terminal_operations import print_red
 
 
 class AudioTranscription:
