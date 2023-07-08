@@ -8,10 +8,10 @@ class FolderMonitor:
     def __init__(self, folder, file_patterns):
         self.folder = folder
         self.file_patterns = file_patterns
-        self.queue = asyncio.Queue()
+        self.queue = asyncio.PriorityQueue()  # Changed from Queue to PriorityQueue
 
     async def monitor_folder(self):
-        existing_files = self._get_files()
+        existing_files = await self._get_files_with_priority()
         print_blue(f"Found {len(existing_files)} existing files")
 
         for file in existing_files:
@@ -20,7 +20,7 @@ class FolderMonitor:
         print_magenta("Checking for files...")
         while True:
             await asyncio.sleep(1)
-            current_files = self._get_files()
+            current_files = await self._get_files_with_priority()
 
             new_files = current_files - existing_files
 
@@ -30,8 +30,12 @@ class FolderMonitor:
 
             existing_files = current_files
 
-    def _get_files(self):
+    async def _get_files_with_priority(self):
         current_files = set()
         for pattern in self.file_patterns:
-            current_files.update(glob.glob(os.path.join(self.folder, pattern)))
+            for file in glob.glob(os.path.join(self.folder, pattern)):
+                # Get file modification time as priority
+                priority = os.path.getmtime(file)
+                # Add to set as (priority, file) tuple
+                current_files.add((priority, file))
         return current_files

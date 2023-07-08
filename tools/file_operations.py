@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from tools.constants import AUDIO_EXTENSIONS, VIDEO_EXTENSIONS
 

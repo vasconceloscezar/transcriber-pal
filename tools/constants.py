@@ -18,3 +18,5 @@ AUDIO_EXTENSIONS = [
     "*.aac",
     "*.opus",
 ]
+
+CHUNKS_DIR = "./tools/temp/chunks"
